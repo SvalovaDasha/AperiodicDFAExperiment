@@ -1,5 +1,8 @@
 #include "ShortestResetWord.h"
+#include <algorithm>
+#include <limits>
 #include <queue>
+#include <cmath>
 
 std::vector<int> SRW::GetShortestResetWord(const std::vector<int>& string_representation){
     std::vector<std::vector<int> > graph;
@@ -14,7 +17,7 @@ void SRW::GetSubsetsGraph(const std::vector<int>& string_representation,
     if(n > std::numeric_limits<unsigned int>::digits)
         return;
 
-    unsigned int ui2_n = unsigned int(std::pow(2.0, n));
+    unsigned int ui2_n = std::pow(2.0, n);
     graph.resize(ui2_n, std::vector<int>(k, 0));
     graph[0].clear();
     for(size_t u = 1; u < ui2_n; u++){
@@ -32,7 +35,7 @@ std::vector<int> SRW::GetLabelsOfPathToSingleton(const std::vector<std::vector<i
     std::vector<int> letter(graph.size(), k);
     std::queue<int> queue;
 
-    int start = graph.size() - 1;// because it's state of all states
+    int start = graph.size() - 1;// because it's state of all state
     parent[start] = start;
     queue.push(start);
     while(!queue.empty()){
@@ -65,8 +68,4 @@ std::vector<int> SRW::RecoverPathLabel(const std::vector<int>& parent,
 
     std::reverse(path.begin(), path.end());
     return std::move(path);
-}
-
-inline bool SRW::IsPowerOfTwo(int n){
-    return (n != 0) && ((n & (n - 1)) == 0);
 }
